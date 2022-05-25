@@ -18,7 +18,7 @@ public class SecurityConfiguration {
     @Value("${path.matchers.authenticate:/**}")
     String[] authenticationMatchers;
 
-    @Value("${path.matchers.permit:/auth/**}")
+    @Value("${path.matchers.permit:/authentication/**}")
     String[] permittedMatchers;
 
     private final AuthenticationManager authenticationManager;
@@ -46,10 +46,10 @@ public class SecurityConfiguration {
                         () -> swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN)))
                 .and()
                 .authorizeExchange()
-                .pathMatchers("/auth/**").permitAll()
+                .pathMatchers("/authentication/**").permitAll()
                 .pathMatchers(authenticationMatchers).authenticated()
                 .pathMatchers(permittedMatchers).permitAll()
-                .anyExchange().hasRole("ADMIN")
+                .anyExchange().hasRole("USER")
                 .and().build();
     }
 }
